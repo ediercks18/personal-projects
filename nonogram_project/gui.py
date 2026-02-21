@@ -8,26 +8,30 @@ root.geometry("500x500")
 # Make sure that all functions pass event as an argument
 # and that all .binds do not have () at the end!!!!
 # =============================================================================
-def test(event):
-    print("hello world!")
 
-# Create Sidebar
+def click(button):
+    if button["bg"] == "white":
+        button["bg"] = "black"
+    else:
+        button["bg"] = "white"
 
-root.update()
-sidebar = tk.Frame(root, width=300, bg="red", height= root.winfo_height())
-sidebar.grid()
+sidebar = tk.Frame(root, width=150, height=400, bg="skyblue")
+sidebar.pack(padx=5, pady=5, side=tk.LEFT, fill=tk.Y)
 
-# Create Input for length/width to allow selection of nongram size
+nonogram = tk.Frame(root, width=400, height=400, bg= "red")
+nonogram.pack(padx=5, pady=5, side=tk.RIGHT)
 
-root.update()
-sidebar.bind("<Button>", test)
 
-nrow = tk.IntVar()
-nrow_input = tk.Entry(sidebar, textvariable=nrow)
-nrow_input.grid(row=0, padx=5, pady=10)
+for x in range(5):
+    for y in range(10): 
+        grid_square = tk.Button(nonogram, bg="white")
+        grid_square.grid(row=x, column=y)
+        grid_square.bind("<Button>", click)
+        grid_square["command"] = lambda grid_square = grid_square: click(grid_square)
 
-ncol = tk.IntVar()
-ncol_input = tk.Entry(sidebar, textvariable=ncol)
-ncol_input.grid(row=1, padx=5, pady=10)
+for x in range(5):
+    tk.Grid.rowconfigure(nonogram, x, weight=1)
+for y in range(10):
+    tk.Grid.columnconfigure(nonogram, y, weight=1)
 
 root.mainloop()
