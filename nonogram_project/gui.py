@@ -10,10 +10,10 @@ root.geometry("500x500")
 # =============================================================================
 
 def click(button):
-    if button["bg"] == "white":
-        button["bg"] = "black"
+    if button.cget("bg") == "white":
+        button.config(bg="black")
     else:
-        button["bg"] = "white"
+        button.config(bg="white")
 
 sidebar = tk.Frame(root, width=150, height=400, bg="skyblue")
 sidebar.pack(padx=5, pady=5, side=tk.LEFT, fill=tk.Y)
@@ -24,9 +24,11 @@ nonogram.pack(padx=5, pady=5, side=tk.RIGHT)
 
 for x in range(5):
     for y in range(10): 
-        grid_square = tk.Button(nonogram, bg="white")
+        # For whatever reason on startup the button is pressed so you have to set
+        # the color to the opposite color you have currently selected (e.g. white) 
+        grid_square = tk.Button(nonogram, bg="black")
         grid_square.grid(row=x, column=y)
-        grid_square.bind("<Button>", click)
+        grid_square.bind("<Button>", click(grid_square))
         grid_square["command"] = lambda grid_square = grid_square: click(grid_square)
 
 for x in range(5):
